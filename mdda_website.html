@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Majestic Discourse Debate Academy</title>
+  <meta name="description" content="MDDA empowers learners from under-resourced South African schools with world-class debate training, critical thinking, and the tools to compete on global stages." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ──────────────────────────── RESET & BASE ──────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Open Sans', sans-serif; color: #1A2B3C; background: #fff; line-height: 1.7; overflow-x: hidden; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ──────────────────────────── VARIABLES ──────────────────────────── */
+    :root {
+      --teal: #1AADCE;
+      --teal-dark: #0E8FA8;
+      --teal-light: #E0F7FC;
+      --navy: #1A2B3C;
+      --navy-mid: #243447;
+      --gray: #6B7280;
+      --light: #F8FAFC;
+      --white: #ffffff;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(26,43,60,0.10);
+      --shadow-lg: 0 12px 48px rgba(26,43,60,0.16);
+    }
+
+    /* ──────────────────────────── TYPOGRAPHY ──────────────────────────── */
+    h1, h2, h3, h4, h5 { font-family: 'Montserrat', sans-serif; font-weight: 800; line-height: 1.15; }
+    .section-label { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.6rem; }
+    .section-title { font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--navy); margin-bottom: 1rem; }
+    .section-sub { font-size: 1.05rem; color: var(--gray); max-width: 600px; line-height: 1.8; }
+
+    /* ──────────────────────────── LAYOUT ──────────────────────────── */
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 96px 0; }
+
+    /* ──────────────────────────── BUTTONS ──────────────────────────── */
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; border-radius: 50px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.92rem; letter-spacing: 0.03em; cursor: pointer; transition: all 0.25s ease; border: 2px solid transparent; }
+    .btn-primary { background: var(--teal); color: var(--white); }
+    .btn-primary:hover { background: var(--teal-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,173,206,0.35); }
+    .btn-outline { background: transparent; color: var(--white); border-color: rgba(255,255,255,0.6); }
+    .btn-outline:hover { background: rgba(255,255,255,0.15); border-color: var(--white); }
+    .btn-navy { background: var(--navy); color: var(--white); }
+    .btn-navy:hover { background: var(--navy-mid); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,43,60,0.3); }
+
+    /* ──────────────────────────── NAV ──────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 0 24px;
+      background: rgba(26,43,60,0.0);
+      backdrop-filter: blur(0px);
+      transition: all 0.35s ease;
+    }
+    nav.scrolled {
+      background: rgba(26,43,60,0.97);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+    }
+    .nav-inner { max-width: 1180px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    .nav-logo { display: flex; align-items: center; gap: 12px; }
+    .nav-logo img { width: 44px; height: 44px; border-radius: 50%; }
+    .nav-logo-text { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 0.95rem; color: var(--white); letter-spacing: 0.02em; line-height: 1.2; }
+    .nav-logo-text span { display: block; font-weight: 500; font-size: 0.7rem; letter-spacing: 0.1em; opacity: 0.7; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+    .nav-links a { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.85rem; color: rgba(255,255,255,0.85); letter-spacing: 0.04em; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--teal); }
+    .nav-cta { font-size: 0.82rem !important; padding: 10px 22px !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: white; transition: all 0.3s; border-radius: 2px; }
+
+    /* ──────────────────────────── HERO ──────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--navy) 0%, #0E2035 40%, #0a3a4a 100%);
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+      padding: 120px 0 80px;
+    }
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 80% at 70% 50%, rgba(26,173,206,0.12) 0%, transparent 70%);
+    }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(26,173,206,0.15); border: 1px solid rgba(26,173,206,0.35); color: var(--teal); padding: 7px 18px; border-radius: 50px; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 24px; }
+    .hero-badge::before { content: '●'; font-size: 0.55rem; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:0.4 } }
+    .hero-title { font-size: clamp(2.4rem, 5.5vw, 4rem); color: var(--white); margin-bottom: 16px; }
+    .hero-title .accent { color: var(--teal); }
+    .hero-tagline { font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 1.15rem; color: rgba(255,255,255,0.65); margin-bottom: 32px; font-style: italic; }
+    .hero-desc { font-size: 1.05rem; color: rgba(255,255,255,0.75); line-height: 1.85; margin-bottom: 40px; max-width: 520px; }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+    .hero-stats { display: flex; gap: 32px; margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); }
+    .hero-stat-num { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 2rem; color: var(--teal); line-height: 1; }
+    .hero-stat-label { font-size: 0.82rem; color: rgba(255,255,255,0.55); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .hero-visual { position: relative; display: flex; justify-content: center; align-items: center; }
+    .hero-logo-ring { width: 380px; height: 380px; border-radius: 50%; background: rgba(26,173,206,0.08); border: 1px solid rgba(26,173,206,0.2); display: flex; align-items: center; justify-content: center; position: relative; }
+    .hero-logo-ring::before { content:''; position:absolute; inset:-16px; border-radius:50%; border:1px solid rgba(26,173,206,0.1); }
+    .hero-logo-ring::after { content:''; position:absolute; inset:-32px; border-radius:50%; border:1px solid rgba(26,173,206,0.06); }
+    .hero-logo-img { width: 220px; height: 220px; filter: drop-shadow(0 0 40px rgba(26,173,206,0.4)); }
+    .floating-card { position: absolute; background: rgba(255,255,255,0.08); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius); padding: 14px 20px; }
+    .floating-card-1 { top: 40px; right: -20px; }
+    .floating-card-2 { bottom: 60px; left: -10px; }
+    .card-icon { font-size: 1.4rem; margin-bottom: 4px; }
+    .card-text { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.82rem; color: white; }
+    .card-sub { font-size: 0.72rem; color: rgba(255,255,255,0.6); }
+
+    /* ──────────────────────────── ABOUT ──────────────────────────── */
+    #about { background: var(--light); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .about-image-wrap { position: relative; }
+    .about-card-main { background: var(--navy); border-radius: 20px; padding: 48px; color: white; }
+    .about-card-main h3 { font-size: 1.6rem; color: white; margin-bottom: 16px; }
+    .about-card-main p { color: rgba(255,255,255,0.75); line-height: 1.85; font-size: 0.97rem; }
+    .about-accent-box { position: absolute; bottom: -24px; right: -24px; background: var(--teal); color: white; border-radius: var(--radius); padding: 24px 28px; font-family: 'Montserrat', sans-serif; box-shadow: var(--shadow-lg); }
+    .accent-num { font-size: 2.2rem; font-weight: 900; line-height: 1; }
+    .accent-label { font-size: 0.75rem; font-weight: 600; opacity: 0.85; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 4px; }
+    .about-content { padding: 20px 0; }
+    .about-content .section-sub { max-width: none; margin-bottom: 24px; }
+    .value-list { display: flex; flex-direction: column; gap: 16px; margin-top: 32px; }
+    .value-item { display: flex; gap: 16px; align-items: flex-start; }
+    .value-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--teal); margin-top: 7px; flex-shrink: 0; }
+    .value-text strong { font-family: 'Montserrat', sans-serif; font-weight: 700; color: var(--navy); display: block; margin-bottom: 2px; }
+    .value-text p { color: var(--gray); font-size: 0.93rem; margin: 0; }
+
+    /* ──────────────────────────── WHAT WE OFFER ──────────────────────────── */
+    #offer { background: white; }
+    .offer-header { text-align: center; margin-bottom: 64px; }
+    .offer-header .section-sub { margin: 0 auto; }
+    .offer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .offer-card { border-radius: var(--radius); padding: 36px; background: var(--light); transition: all 0.3s ease; position: relative; overflow: hidden; border: 1px solid transparent; }
+    .offer-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: rgba(26,173,206,0.2); background: white; }
+    .offer-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--teal); opacity: 0; transition: opacity 0.3s; }
+    .offer-card:hover::before { opacity: 1; }
+    .offer-icon { width: 56px; height: 56px; border-radius: 14px; background: var(--teal-light); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 20px; transition: all 0.3s; }
+    .offer-card:hover .offer-icon { background: var(--teal); }
+    .offer-card h3 { font-size: 1.1rem; margin-bottom: 10px; color: var(--navy); }
+    .offer-card p { color: var(--gray); font-size: 0.92rem; line-height: 1.75; }
+
+    /* ──────────────────────────── HOW IT WORKS ──────────────────────────── */
+    #how { background: var(--navy); }
+    #how .section-label { color: var(--teal); }
+    #how .section-title { color: white; }
+    #how .section-sub { color: rgba(255,255,255,0.65); }
+    .how-header { text-align: center; margin-bottom: 64px; }
+    .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .step-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius); padding: 32px 24px; text-align: center; position: relative; }
+    .step-num { width: 48px; height: 48px; border-radius: 50%; background: var(--teal); color: white; font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+    .step-card h4 { font-size: 1rem; color: white; margin-bottom: 10px; }
+    .step-card p { color: rgba(255,255,255,0.6); font-size: 0.88rem; line-height: 1.7; }
+    .step-connector { position: absolute; top: 52px; right: -12px; width: 24px; height: 2px; background: var(--teal); opacity: 0.4; }
+
+    /* ──────────────────────────── IMPACT ──────────────────────────── */
+    #impact { background: var(--teal); }
+    .impact-inner { text-align: center; }
+    #impact .section-label { color: rgba(255,255,255,0.7); }
+    #impact .section-title { color: white; }
+    #impact .section-sub { color: rgba(255,255,255,0.8); margin: 0 auto 64px; }
+    .impact-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+    .impact-stat { }
+    .impact-stat-num { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 3rem; color: white; line-height: 1; }
+    .impact-stat-label { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.85rem; color: rgba(255,255,255,0.75); margin-top: 8px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .impact-quote { margin-top: 72px; background: rgba(255,255,255,0.12); border-radius: 20px; padding: 48px; max-width: 760px; margin-left: auto; margin-right: auto; }
+    .impact-quote blockquote { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 1.25rem; color: white; font-style: italic; line-height: 1.6; margin-bottom: 16px; }
+    .impact-quote cite { font-size: 0.85rem; color: rgba(255,255,255,0.7); font-style: normal; }
+
+    /* ──────────────────────────── FORMATS ──────────────────────────── */
+    #formats { background: var(--light); }
+    .formats-header { text-align: center; margin-bottom: 56px; }
+    .formats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .format-card { background: white; border-radius: var(--radius); padding: 32px; border-left: 4px solid var(--teal); box-shadow: var(--shadow); }
+    .format-tag { display: inline-block; background: var(--teal-light); color: var(--teal-dark); font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 12px; border-radius: 50px; margin-bottom: 14px; }
+    .format-card h3 { font-size: 1.05rem; color: var(--navy); margin-bottom: 8px; }
+    .format-card p { color: var(--gray); font-size: 0.9rem; line-height: 1.7; }
+
+    /* ──────────────────────────── SCHOOLS CTA ──────────────────────────── */
+    #schools { background: white; }
+    .schools-banner { background: linear-gradient(135deg, var(--navy) 0%, #0a3a4a 100%); border-radius: 24px; padding: 72px 64px; display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; position: relative; overflow: hidden; }
+    .schools-banner::before { content: ''; position: absolute; right: -80px; top: -80px; width: 320px; height: 320px; border-radius: 50%; background: rgba(26,173,206,0.1); }
+    .schools-banner-label { color: var(--teal); font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px; }
+    .schools-banner h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); color: white; margin-bottom: 16px; }
+    .schools-banner p { color: rgba(255,255,255,0.7); font-size: 0.97rem; line-height: 1.75; max-width: 480px; }
+    .schools-cta-group { display: flex; flex-direction: column; gap: 14px; flex-shrink: 0; }
+
+    /* ──────────────────────────── CONTACT ──────────────────────────── */
+    #contact { background: var(--light); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; }
+    .contact-info h2 { font-size: 2rem; margin-bottom: 16px; }
+    .contact-info .section-sub { margin-bottom: 40px; }
+    .contact-detail { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
+    .contact-icon { width: 44px; height: 44px; border-radius: 10px; background: var(--teal-light); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+    .contact-detail strong { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.85rem; color: var(--navy); display: block; margin-bottom: 2px; }
+    .contact-detail span { color: var(--gray); font-size: 0.9rem; }
+    .contact-form { background: white; border-radius: 20px; padding: 48px; box-shadow: var(--shadow); }
+    .contact-form h3 { font-size: 1.3rem; margin-bottom: 28px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.82rem; color: var(--navy); margin-bottom: 8px; letter-spacing: 0.03em; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 16px; border: 1.5px solid #E5E7EB; border-radius: 8px; font-family: 'Open Sans', sans-serif; font-size: 0.93rem; color: var(--navy); background: #FAFAFA; transition: border-color 0.2s; outline: none; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--teal); background: white; }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .form-submit { width: 100%; padding: 15px; background: var(--teal); color: white; border: none; border-radius: 50px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: all 0.25s; letter-spacing: 0.03em; }
+    .form-submit:hover { background: var(--teal-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,173,206,0.35); }
+
+    /* ──────────────────────────── FOOTER ──────────────────────────── */
+    footer { background: var(--navy); color: white; padding: 64px 0 32px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+    .footer-brand { }
+    .footer-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .footer-logo img { width: 48px; height: 48px; border-radius: 50%; }
+    .footer-logo-name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 0.88rem; color: white; line-height: 1.3; }
+    .footer-tagline { color: rgba(255,255,255,0.55); font-size: 0.88rem; line-height: 1.8; max-width: 280px; }
+    .footer-col h4 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 18px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { color: rgba(255,255,255,0.6); font-size: 0.88rem; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--teal); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { color: rgba(255,255,255,0.4); font-size: 0.82rem; }
+    .footer-bottom .teal { color: var(--teal); }
+
+    /* ──────────────────────────── MOBILE NAV ──────────────────────────── */
+    .mobile-menu { display: none; position: fixed; inset: 0; background: var(--navy); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 32px; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.5rem; color: white; }
+    .mobile-close { position: absolute; top: 24px; right: 24px; font-size: 1.8rem; color: white; cursor: pointer; background: none; border: none; }
+
+    /* ──────────────────────────── RESPONSIVE ──────────────────────────── */
+    @media (max-width: 1024px) {
+      .offer-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps-grid { grid-template-columns: repeat(2, 1fr); }
+      .impact-stats { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      section { padding: 64px 0; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-accent-box { position: static; margin-top: 20px; display: inline-block; }
+      .offer-grid { grid-template-columns: 1fr; }
+      .formats-grid { grid-template-columns: 1fr; }
+      .schools-banner { grid-template-columns: 1fr; padding: 40px 32px; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-stats { flex-direction: column; gap: 20px; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .impact-stats { grid-template-columns: 1fr 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    /* ──────────────────────────── SCROLL ANIMATIONS ──────────────────────────── */
+    .fade-up { opacity: 0; transform: translateY(30px); transition: all 0.65s cubic-bezier(0.22,1,0.36,1); }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up-delay-1 { transition-delay: 0.1s; }
+    .fade-up-delay-2 { transition-delay: 0.2s; }
+    .fade-up-delay-3 { transition-delay: 0.3s; }
+    .fade-up-delay-4 { transition-delay: 0.4s; }
+  </style>
+</head>
+<body>
+
+<!-- ─────────────── NAV ─────────────── -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <img src="LOGO_PLACEHOLDER" alt="MDDA Logo" />
+      <div class="nav-logo-text">Majestic Discourse<span>Debate Academy</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#offer">Programmes</a></li>
+      <li><a href="#impact">Impact</a></li>
+      <li><a href="#formats">Formats</a></li>
+      <li><a href="#contact" class="btn btn-primary nav-cta">Get Involved</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="#about" class="mobile-link">About</a>
+  <a href="#offer" class="mobile-link">Programmes</a>
+  <a href="#impact" class="mobile-link">Impact</a>
+  <a href="#formats" class="mobile-link">Formats</a>
+  <a href="#contact" class="btn btn-primary mobile-link">Get Involved</a>
+</div>
+
+<!-- ─────────────── HERO ─────────────── -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="hero-badge">South Africa · Est. 2023</div>
+        <h1 class="hero-title">Your <span class="accent">Argument.</span> 
+          Your <span class="accent">Stage.</span>
+          Your <span class="accent">World</span></h1>
+        <p class="hero-tagline">"Debate Is Not a Privilege. It's a Right."</p>
+        <p class="hero-desc">Majestic Discourse Debate Academy empowers learners from under-resourced and rural schools across South Africa with world-class debate training, critical thinking, and the platform to compete globally.</p>
+        <div class="hero-actions">
+          <a href="#offer" class="btn btn-primary">Explore Programmes ↓</a>
+          <a href="#contact" class="btn btn-outline">Partner With Us</a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-num">6+</div>
+            <div class="hero-stat-label">Partner Schools</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">3</div>
+            <div class="hero-stat-label">Debate Formats</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">100%</div>
+            <div class="hero-stat-label">Free to Learners</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-logo-ring">
+          <img class="hero-logo-img" src="LOGO_PLACEHOLDER" alt="Majestic Discourse Debate Academy" />
+        </div>
+        <div class="floating-card floating-card-1">
+          <div class="card-icon">🏆</div>
+          <div class="card-text">National Tournaments</div>
+          <div class="card-sub">Jozi Sho · Cape Town Open · PPIV</div>
+        </div>
+        <div class="floating-card floating-card-2">
+          <div class="card-icon">🌍</div>
+          <div class="card-text">Global Reach</div>
+          <div class="card-sub">International debate formats</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── ABOUT ─────────────── -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-image-wrap fade-up">
+        <div class="about-card-main">
+          <h3>Built for the Learners the System Forgot</h3>
+          <p>MDDA was founded on a simple but radical premise: that the most powerful voices in South Africa are the ones that have never had a stage. We go to the schools that elite debate programmes don't — and we bring the same standard of training.</p>
+        </div>
+        <div class="about-accent-box">
+          <div class="accent-num">100%</div>
+          <div class="accent-label">Free for Learners</div>
+        </div>
+      </div>
+      <div class="about-content fade-up fade-up-delay-2">
+        <div class="section-label">Our Story</div>
+        <h2 class="section-title">Empowering Rural Voices on a Global Stage</h2>
+        <p class="section-sub">Majestic Discourse Debate Academy (MDDA) is a South African nonprofit that provides structured debate training to learners from under-resourced schools — at zero cost to schools or families.</p>
+        <div class="value-list">
+          <div class="value-item">
+            <div class="value-dot"></div>
+            <div class="value-text"><strong>Empowerment</strong><p>We unlock confidence, critical thought, and the courage to speak in every learner we work with.</p></div>
+          </div>
+          <div class="value-item">
+            <div class="value-dot"></div>
+            <div class="value-text"><strong>Equity</strong><p>Access to debate should never be determined by geography or income. We actively level the field.</p></div>
+          </div>
+          <div class="value-item">
+            <div class="value-dot"></div>
+            <div class="value-text"><strong>Excellence</strong><p>We hold our learners to the same standards as the best debaters in the world — because we know they can meet them.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── WHAT WE OFFER ─────────────── -->
+<section id="offer">
+  <div class="container">
+    <div class="offer-header fade-up">
+      <div class="section-label">Our Programmes</div>
+      <h2 class="section-title">Everything Your Learners Need to Win</h2>
+      <p class="section-sub">MDDA provides a complete debate development pathway — from first workshop to international tournament — at no cost to schools or families.</p>
+    </div>
+    <div class="offer-grid">
+      <div class="offer-card fade-up fade-up-delay-1">
+        <div class="offer-icon">🎤</div>
+        <h3>Expert Debate Coaching</h3>
+        <p>Structured coaching in argument construction, rebuttals, public speaking, and point of information — delivered by experienced coaches who have competed nationally and internationally.</p>
+      </div>
+      <div class="offer-card fade-up fade-up-delay-2">
+        <div class="offer-icon">🏟️</div>
+        <h3>Tournament Preparation</h3>
+        <p>Full preparation for provincial, national, and international tournaments. We handle registration, motions preparation, and mock debates so your learners step onto the stage ready.</p>
+      </div>
+      <div class="offer-card fade-up fade-up-delay-3">
+        <div class="offer-icon">🧠</div>
+        <h3>Critical Thinking Development</h3>
+        <p>We don't just teach debate — we teach learners how to think. Our curriculum develops research skills, logical reasoning, and the ability to engage confidently with complex ideas.</p>
+      </div>
+      <div class="offer-card fade-up fade-up-delay-1">
+        <div class="offer-icon">🤝</div>
+        <h3>Mentorship & Community</h3>
+        <p>Learners join a network of debaters across South Africa. Our mentorship programme connects them with alumni, coaches, and university students who have walked the same journey.</p>
+      </div>
+      <div class="offer-card fade-up fade-up-delay-2">
+        <div class="offer-icon">📚</div>
+        <h3>Curriculum Resources</h3>
+        <p>Schools receive structured curriculum materials, debate guides, and motion banks that teachers and learners can use independently between coaching sessions.</p>
+      </div>
+      <div class="offer-card fade-up fade-up-delay-3">
+        <div class="offer-icon">🌐</div>
+        <h3>Global Exposure</h3>
+        <p>Top performing learners are connected to international debate opportunities, exposing them to global perspectives and creating pathways to universities and opportunities worldwide.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── HOW IT WORKS ─────────────── -->
+<section id="how">
+  <div class="container">
+    <div class="how-header fade-up">
+      <div class="section-label">The Pathway</div>
+      <h2 class="section-title">Your Learners' Journey With MDDA</h2>
+      <p class="section-sub" style="margin:0 auto;">From the first session to the national stage — here is what the journey looks like.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card fade-up fade-up-delay-1">
+        <div class="step-num">1</div>
+        <h4>School Partnership</h4>
+        <p>Your school signs a simple partnership agreement with MDDA. No fees. No lengthy onboarding. Just a commitment to make space for debate.</p>
+        <div class="step-connector"></div>
+      </div>
+      <div class="step-card fade-up fade-up-delay-2">
+        <div class="step-num">2</div>
+        <h4>Introductory Workshops</h4>
+        <p>MDDA coaches visit your school to run introductory sessions. We identify learners with potential and build their foundation from day one.</p>
+        <div class="step-connector"></div>
+      </div>
+      <div class="step-card fade-up fade-up-delay-3">
+        <div class="step-num">3</div>
+        <h4>Regular Training</h4>
+        <p>Ongoing weekly or fortnightly sessions, structured around national tournament calendars and learner development milestones.</p>
+        <div class="step-connector"></div>
+      </div>
+      <div class="step-card fade-up fade-up-delay-4">
+        <div class="step-num">4</div>
+        <h4>Tournament & Beyond</h4>
+        <p>Your learners compete. They win. They grow. And the best go on to international tournaments, university debates, and leadership roles.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── IMPACT ─────────────── -->
+<section id="impact">
+  <div class="container">
+    <div class="impact-inner">
+      <div class="section-label fade-up">Our Impact</div>
+      <h2 class="section-title fade-up">Changing Lives, One Argument at a Time</h2>
+      <p class="section-sub fade-up">Every session, every tournament, every mentorship hour creates measurable change in the lives of South African learners.</p>
+      <div class="impact-stats">
+        <div class="impact-stat fade-up fade-up-delay-1">
+          <div class="impact-stat-num">6+</div>
+          <div class="impact-stat-label">Partner Schools</div>
+        </div>
+        <div class="impact-stat fade-up fade-up-delay-2">
+          <div class="impact-stat-num">50+</div>
+          <div class="impact-stat-label">Learners Trained</div>
+        </div>
+        <div class="impact-stat fade-up fade-up-delay-3">
+          <div class="impact-stat-num">3</div>
+          <div class="impact-stat-label">Debate Formats</div>
+        </div>
+        <div class="impact-stat fade-up fade-up-delay-4">
+          <div class="impact-stat-num">∞</div>
+          <div class="impact-stat-label">Potential Unlocked</div>
+        </div>
+      </div>
+      <div class="impact-quote fade-up">
+        <blockquote>"From rural classrooms to global platforms — MDDA learners carry voices that the world needs to hear."</blockquote>
+        <cite>— Charmaine Musetsho, Founder, Majestic Discourse Debate Academy</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── FORMATS ─────────────── -->
+<section id="formats">
+  <div class="container">
+    <div class="formats-header fade-up">
+      <div class="section-label">Debate Formats</div>
+      <h2 class="section-title">We Train in the World's Leading Formats</h2>
+      <p class="section-sub" style="margin:0 auto;">Our learners are prepared to compete in the same formats used at the world's top debate tournaments.</p>
+    </div>
+    <div class="formats-grid">
+      <div class="format-card fade-up fade-up-delay-1">
+        <div class="format-tag">Format 1</div>
+        <h3>British Parliamentary (BP)</h3>
+        <p>The world's most widely used debate format, used at WUDC and most South African university tournaments. Teams of two debate motions across government and opposition benches.</p>
+      </div>
+      <div class="format-card fade-up fade-up-delay-2">
+        <div class="format-tag">Format 2</div>
+        <h3>World Schools Debate (WSD)</h3>
+        <p>The format used at the World Schools Debating Championships. Combines prepared and impromptu motions — the gold standard for secondary school debate worldwide.</p>
+      </div>
+      <div class="format-card fade-up fade-up-delay-3">
+        <div class="format-tag">Format 3</div>
+        <h3>World Scholars Cup (WSC)</h3>
+        <p>A global interdisciplinary debate programme connecting learners across the world. MDDA prepares learners for WSC regional, national, and international rounds.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── SCHOOLS CTA ─────────────── -->
+<section id="schools">
+  <div class="container">
+    <div class="schools-banner fade-up">
+      <div>
+        <div class="schools-banner-label">For School Principals</div>
+        <h2>Bring MDDA to Your School — At No Cost</h2>
+        <p>We are currently accepting new school partnerships for our upcoming cohort. If you are a principal looking to give your learners a competitive edge and a platform for their voices, we would love to hear from you.</p>
+      </div>
+      <div class="schools-cta-group">
+        <a href="#contact" class="btn btn-primary">Schedule a Call ↗</a>
+        <a href="mailto:[EMAIL]" class="btn btn-outline">Send an Email</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── CONTACT ─────────────── -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info fade-up">
+        <div class="section-label">Get in Touch</div>
+        <h2 class="section-title">Ready to Unlock Your Learners' Potential?</h2>
+        <p class="section-sub">Whether you are a principal, a parent, a funder, or a learner — we would love to hear from you. Fill in the form and we will be in touch within 48 hours.</p>
+        <div class="contact-detail" style="margin-top:32px;">
+          <div class="contact-icon">📧</div>
+          <div><strong>Email Us</strong><span>[EMAIL]</span></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">📞</div>
+          <div><strong>Call Us</strong><span>[PHONE]</span></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">🌍</div>
+          <div><strong>Based In</strong><span>South Africa</span></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">📣</div>
+          <div><strong>Follow Us</strong><span>@MajesticDiscourseDDA</span></div>
+        </div>
+      </div>
+      <div class="contact-form fade-up fade-up-delay-2">
+        <h3>Send Us a Message</h3>
+        <form id="contactForm" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" placeholder="Thabo" required />
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" placeholder="Mokoena" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="principal@school.co.za" required />
+          </div>
+          <div class="form-group">
+            <label>I am a…</label>
+            <select>
+              <option value="">Select your role</option>
+              <option>School Principal</option>
+              <option>Teacher / Educator</option>
+              <option>Learner</option>
+              <option>Parent / Guardian</option>
+              <option>Funder / Sponsor</option>
+              <option>Media / Press</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>School or Organisation (if applicable)</label>
+            <input type="text" placeholder="Limpopo High School" />
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea placeholder="Tell us a bit about your school and what you are looking for…"></textarea>
+          </div>
+          <button type="submit" class="form-submit">Send Message →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── FOOTER ─────────────── -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <img src="LOGO_PLACEHOLDER" alt="MDDA Logo" />
+          <div class="footer-logo-name">Majestic Discourse<br/>Debate Academy</div>
+        </div>
+        <p class="footer-tagline">Empowering learners from under-resourced South African schools to find their voice and compete on the world stage.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="#about">About MDDA</a></li>
+          <li><a href="#offer">Programmes</a></li>
+          <li><a href="#impact">Our Impact</a></li>
+          <li><a href="#formats">Debate Formats</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Programmes</h4>
+        <ul>
+          <li><a href="#offer">Debate Coaching</a></li>
+          <li><a href="#offer">Tournament Prep</a></li>
+          <li><a href="#offer">Mentorship</a></li>
+          <li><a href="#formats">BP Format</a></li>
+          <li><a href="#formats">World Schools</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:[EMAIL]">[EMAIL]</a></li>
+          <li><a href="tel:[PHONE]">[PHONE]</a></li>
+          <li><a href="#contact">Partner With Us</a></li>
+          <li><a href="#contact">School Enquiry</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Majestic Discourse Debate Academy. All rights reserved.</p>
+      <p>Built with purpose. <span class="teal">Where Voices Rise and Minds Lead.</span></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ─── Logo Base64 ───
+  const LOGO_B64 = 'data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAH0AfQDASIAAhEBAxEB/8QAHAABAAMBAQEBAQAAAAAAAAAAAAYHCAUEAwIB/8QAUhAAAQQBAgMEBAYLDgQGAwAAAAECAwQFBhEHEiExQVFhCBNxgRQiMkKRoRUWIzNSYoKSscHSJDZWcnN0dZSisrPC0fAlNTdDJkRTY6PhFzSk/8QAGwEBAAMAAwEAAAAAAAAAAAAAAAQFBgECAwf/xAA6EQACAQMBBAgGAgECBgMAAAAAAQIDBBEFEiExQQYTUWFxgdHwFCKRobHBMjThM0IVIyQ1UvGCkrL/2gAMAwEAAhEDEQA/ANlgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/j3NY1XPcjWom6qq7Ihxr2rNMUlVLWoMZG5O1vwliu+hF3O0YSl/FZOk6sKazNpeJ2gRCbiZoaFVR+fhXb8CGR36GqfJOKmg9/+ff/AMk/7B6/DVn/ALH9GRnqNouNWP8A9l6k0BFK/EbRM67M1DWT+O17P7yIdnH5/BZBUSjmcfZcvY2Kyxy/Qi7nSVGpH+UWvI9Kd3Qqfwmn4NHSAB5kgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH5lkZFG6SV7WMam7nOXZETxVSBa94o4XTjpKVPbJ5JvRY43fc41/Hd4+SdfHYo7V2tNQ6olX7J3nfB9921oviRN/J7/au6ljbabVrfM9yKHUOkFtaNwj80uxcPNl3ap4t6YxCuhovfl7Lem1ddo0XzevT81FKzz/F/VmRVzKT6+LhXsSBnM/bzc7f6URCvAXVHTqFLll95j7vX724eNrZXYt334ntyeWymUk58lkbdx3jNM5+30qeI9mJxOTy9j4PjKFm5J3thjV23mu3YnmpPMNwa1Vca2S9JSxzF7WySc709zd0+skTr0aKxJpEGjZ3V2804uXf/krcF6Y/gbjWNT7IZ63Mvf6iFsf6eY6sPBjSEaIjpcpL5vnb+pqESWq264NvyLOHRm/kt6S8X6ZM7A0c/g7oxzVRI77V8UsdU+lDl3eB+Cei/A8xkYV7vWoyRE+hGnEdVt3xyvI7T6MX0VuSfn64Kcw+qNRYdU+xuZu12p8xsqqz81en1E907xrzdVWx5qjXyEffJH9yk9vT4q+zZD+Zjglnq6K7GZKleanzXosL193VPrIPn9JakwO7srh7UEadsqN54/z27t+s9P8Ao7rdub+j9TxS1XTd/wA0UvNftGi9J8QdMajVkVS8le27olaynI9V8E7ne5VJWYuJ3ovijqPT6sr2ZVylFvT1Nhy87U/Ff2p7F3TyIFxpDW+k/Jl3Y9Kk8Ruo471+16fQ0sCO6L1ng9V1lfjbHLYam8taX4sjPd3p5puhIilnCUJbMlhmupVqdaCnTeUwADqegAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPPk71TG4+e/enZBWgYr5JHdiJ/vu7zlJt4Rw2orL4H6vW61GnLcuTxwV4m80kj3bNanmpQvEvitby6y4zTr5KmPXdr7HyZZ08vwW/Wvft2HC4na9vauvrDEslfExO+419+r1/Df4r5difSqws0Vjpqp4nV3vs7DBaz0hnXbo2zxHm+b9EACweGPDS7qdzMjklkp4hF6O22fP5M37E/G+jfrtZVa0KMdqbwjO2trVuqip0llkR05gMvqG8lPEUpLMnzlRNmsTxc5eiJ7S6tG8GsTRZHZ1FMuRs9qwRqrYWr4dznfUnkWPhcVjsLj46GLqRVa7OxjE7V8VXtVfNep7TPXOqVKu6G5fc3mndG7e3SlW+eX2Xlz8/ofChTqUKzatGrDVgb8mOJiManuQ+4BWN53s0aSSwgADg5AAAAciOarXIioqbKi94ABBtX8LtM55HzQQfYu4vZNWaiNVfxmdi+7ZfMpLXGgc/pRyy2oUs0d9m24UVWeXMna1fb08FU1MfmaOOaJ8UsbZI3orXMcm6ORe1FTvLC21GrR3N5RR6hoFrdpyitmXav2vbMbUrVmlbjt055ILETuaOSNytc1fFFQvbhjxWgyqxYnUj4615dmxWvkxzL4O7mu+pfLsObxO4Ss5JctpSJUVN3S0E67+Kx/s/R3IUs5rmuVrkVrkXZUVOqKXLjQ1Cnnn90ZCM73Q6+Hwf0fv6o2gCkeDnEt8T4dO6isK6JdmVLci9WL3Mevh4L3di9Oy7jPXNtO3nsyN7YX9K+pdZT812MAAjk4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/kj2Rxukkc1jGoquc5dkRE71M38YNeSanyK47HyObh6z/ibdPXvT56+Xgnv7+ky9IDWXwav9quOl2mmajrrmr1axeqR+1e1fLbxKNL/S7NJddPjy9TD9JNWcpO0pPcv5enqACZcKNGSatzv7oa5uLqqjrT06c3hGi+K/Um/kW9WpGlBzlwRlbe3qXFVUqay2d3g5w6XPSMzmbicmLY77jEvT4S5P8ifX2eJoCNjI42xxsaxjERrWtTZEROxEQ/leGKtXjrwRsiiiajGMamyNaibIiJ4CWWKFvNLIyNPFzkQyd1czuZ7T4ckfUdN06lp9HYjx5vt/x2H7B5FyeNR3KuQqc3h65u/6T0RTQy/epY3/AMVyKRmmiepxfBn7ABwdgAAAAAAAAAAAAVbxg4bszEc2ewUKMyTUV08DU6WUTvT8f9PtLSB7UK86E9uBFvLOleUnSqrd+O9GLlRUVUVFRU7UUvfgdr5cjFHpnMzb3I27VJnr1manzF/GROzxTzTryOPOhm1Xv1ViodopHfu6JqdGuXskTyVei+ey96lRV5pa9iOxBI6KWNyPY9q7K1yLuioviaSUad/Qz7TPnkJ3GiXuH/hr39GbOBFuGOq4tW6ajtuVrb0G0VuNOmz9vlIng7tT3p3EpMxUpypycZcUfSKFaFemqkHlMAA6HqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADkaxztfTenLmXsbKkDPubN/vj16Nb712926nXKG9IzUK2s1W07BJ9xptSadEXtlcnRF9jf7ykqzodfVUeXMrdWvvgrWVRceC8X7yVdkblnIX571uVZbFiRZJHr3uVd1PgAa9LG5HyptyeWCwcLxNn03pqDC6cxUEKtTmmtWFV7pJF+U5GpsieCbqvREK+B51aMKqSmso97e6q2zcqTw3uySTMa71dlVX4XnriNX5kL/VN9mzNt/eR6eaad/rJpXyvX5z3Kq/WfgHaFOEFiKwdKterVeakm/F5ARVRUVF2VOxT31cJmbTeariL86eMdZ7k+pD8X8VlKH/AO9jblX+Wgcz9KHO3HOMnXqppbWHg92J1XqXFORaGcvQonzPXK5n5q7p9RNsHxq1FVVrMpTqZGNO1yJ6qRfenxf7JV4PGpa0av8AKKJVvqN1b/6dRr8fR7jTWk+KGls8rIH2Vxtt3RIrWzUcvk/5K+/ZfIm6dU3QxcaR4ATSzcPIvWyvk5LMjG8zlXlam2yJ4J5FJqGnwoR6yD3dhstD1yre1OpqxWcZyvQsAAFQakAAAAAAAAA+VytBcqTVLUTZYJmLHIx3Y5qpsqKZR19p2bS+qLWKk5nRNXnrvX58S/JX29qL5oprMrP0g9PJktLMzMEe9nGu3eqJ1dE5dnJ7l2XyTcstMuOqq7L4SM/0isFc2zqRXzQ3+XP1Km4VandpfVsFmV6pRsfcbad3Iq9Hfkrsvs3TvNStVHNRzVRUVN0VO8xcaU4GagXN6KirTyc1rHL8Hk3XqrNviL9HT8lSZq9vuVZeDKnorftSlay8V+1+/qT0AFCbYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+N6zDSpT3LDuWGCN0sjvBrU3VfoQyBm8hPlsxbydld5bUzpXeW677exOw0Xx0yi43h5bjY7lkuyMrNXyXq7+y1ye8zQaDR6WISqdu4wvSy52qsKC5LPm/f3AB2dI6Zy+qMklLFV1ftsssrukcSeLl/V2r3FxKSgtqTwjKU6c6slCCy2cZEVVRERVVeiIhPtJ8KNT5tGT2o24qq7rz2UXnVPJnb9OxcGguHeE0rEyf1bb2S23dalb8lfxE+an1+Y4j8QMZpGD1CIlvKPbvHWa75Pg569yeXav1pT1NSnVn1dus9/v9mst+j1G2pdffywuxevPwX1OLT4Y6F0zj1v5+dbTY+rprcvq49/BGtVN/Yu5H8xxT05hkdX0Zpuojm9EsvgSJntRrdnO96opWWqdSZjUt9bmXuOmcm/q406Rxp4Nb2J+le/c5BIp2Ll81eTk+zkQLjWo0/ksqagu3C2n78/Ek2d19q7Mq5Lebssjd/wBquvqmbeGzdt/fuRlyq5yucqqqruqr3gE+FOMFiKwUlWvUrPaqSbfe8gNVWuRzVVFRd0VO4A7nkSDEaz1JjNmw5OWeLvhtIkzFTw2fvt7tixtF8YsfVjbTy2Choxq7dZccxEZuvaqx/rRV9hTIItazo1ViSLG11W6tXmE/J7178DYWDzOKzdNLeJvQW4e9Y3dWr4OTtavkux7zHuAzOTwWRZfxVuStOxe1q9HJ4OTsVPJTTHDTWNfWOEWykaQXa6oy1CnY1V7HJ+Kuy7exU7tygvdPlb/NF5ibjSNdhfvq5rZn9n4ehKgAVxfgAAAAAA+N+rDeo2KVhvPDYjdFI3xa5Nl+pT7AJ43nDSawzHGYoy4zLW8dP99qzPhf5q1VTf6iccA8yuM11HSe/lgyMawuReznT4zF9u6Kn5R8ePOPSjxFtSNTZtyGOwie1OVfrYq+8heMuS4/JVb8C7S1pmSs/jNVFT9BsMK5t9/+5HyrL0+/3f7JfbP7RskHypWI7dOC3Cu8c0bZGL4o5N0/SfUx7WD6qmmsoAAHIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABS3pNXl/4LjWr0+6zvT81rf8AMUuWd6SEiu1xUj3+KzHs2TzWST/6IDpzD3c9mq2JoM5p7D+VFXsane5fJE3U1lglTtYt+J8w1pyr6jNRWXlJfRI6fD/SV/V2abSrbxVo9nWbCpukTf1uXuT9SKac01gsbp3ExYzFwJFCzqqr1dI7vc5e9V/30Pho3TlDS+ChxdBu6N+NLKqbOlf3uX/TuTZDzcQtUV9J6cmyUqNfO77nWiX/ALkip09ydq+SFJd3U7uooQ4ckbDTNNpaVQdar/LGW+zuXvecHi7r+PS1P7H41zJMxO3du/VK7V+e5PHwT3r07c527Ni5aktWppJ55XK6SR7t3OVe1VU/eTvW8nkJ796Z09md6vke7tVV/wB9h5y+tLSNtDC482YrVdTqX9Xae6K4L3zAAJZVgH3x9O3kLkdOjXls2JV2ZHG1XOcvsLj0VwXbyR29U2Xcy9fgVd223k9/6m/SR691ToLM2TrLTri9lijHz5IpZjXPejGNVzlXZERN1U6kemdSSM549P5Z7dt9205FTb6DRmYu6N4c4pJW0q1R70VIoYI0WaZfavVU81XYo7XfELO6qldFJKtLH7/FqQuXZU/HX5y+3p5Eehd1bh5hDEe1k+90u3sI4rVcz/8AGK/Lfp5Edwt6XD5qtfSBkj60qOdDK34rtu1rk8FTdC7tN1OGfEKsqx4evQySN3krxO9TI3xc3l2R6ee3tRCgz6VbE9WzHZrTSQzRu5mSRuVrmr4oqdh7XFt1qzGTUu1ESw1D4V7M4KcHxTX47zt6+o4PGams47AvuyV6zljkdZ239Yi7ORNkTonZ1Jt6PWosPh7mTpZS7HUkurD6h0nRjlbz7oruxF+MnaQLUmcdn3RXb0DUyaIjJ7EaIiWEROjnJ3PTs3ToqbdE268cTodbQ6uZxSvfhbz4iilhN4XBYfL39zaKKioiou6L2KDMOhOI2d0s5lf1nw7HJ21ZnL8VPxHdrfZ1TyL+0Zq/C6rp+uxljaZqby1pOksftTvTzToZy6salvve9dpv9N1q3vlsrdLsf67SQAAhFwAAAAAAUb6TVZG5TC29uskMse/8VzV/zlQF5ek1Ei4vCz97J5WfS1q/5SjTV6a820fP8nzHpDDZ1Cp34/CNTcIbq3+HGGlVd3RwrAvl6tysT6moSsrf0dp1m0A+NV+8XpI097WO/wAxZBnLuOzXmu9n0DTKnWWdKT/8V+AACOTgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADO/pFp/wCPovOhH/eeTvgJpNMRgfs9ci2vZBqLHzJ1jg7U/O+V7OU5XEXTi6l414rHPRfg32Pjmsr/AO02STf6ejfeXCxrWMRjGo1rU2RETZEQtrm52baFKPNbzMafp6nqNa5mtybS8ebP6Zk4y6odqPV0scMirQoKsFdN+jlRfjv96p9CIXxxLzS4DROSyDH8k/qvVQKnb6x/xUVPZvv7jKJ7aPQTbqvwRE6V3rSjbRfHe/178AASzTelHT6VyerMmjo8dUjc2u3sWxMvxWp/FRypuvf2eO13OpGCyzH0aE60tmC7/BLiyJntwWKvZvKwYzHQLNZndytanYniqr3IidVU8SdV2Q0lwZ0U3TOFS/eiT7LXGIsm6dYWdqR+3vXz6dxHvLpW1Pa58idpOmyv6+xwiuL7vVnU4d6IxukMcjYmtnyMjf3RaVOrvxW+DfLv7z9cR9ZUtH4f18iNmvTIratff5a/hL4NTv8AoO5nMnUw2ItZS8/kr1o1e9e9fBE81XZE81Mp6x1Dd1Pn58tddsr12ij33SJifJans+td17yjs7eV5VdSpw5+hsdWv6ek26o26xJ8O5dvvizy53LZDOZSXJZOw6ezKvVy9iJ3IidyJ4HhANMkorCPnkpSnJyk8tgAHJ1AAAB6qNq/ir0N2pNNUsx7PikaqtXZe9PFF+hTyku0Pq+PFNTFZ6jFlsG93xq8zEe6FV7XRqvYvl038l6nnVbUdyz3HvbxhKolKWz39j98y3+E/EaHVDExeU9XBl2N3Tbo2wiJ1Vvg7xT3p3oliFM5DhjjslXg1Jw8zHqXbpLBG6RVYjkXf4r/AJTVTwdv17di2MBPesYWpNk63wa8saJYi3ReV6dHbbdNt03TyUy13Clnbpea5pn0rSq11s9VcrLXCS3qS8e38nuABCLcAAAp70m5UTH4ODfq+WZ/0I1P8xR5a/pK3Ek1LjKCLukFRZF8le5U/QxCqDWadHZto++Z8w1+anqFRrlhfRIv30an76RyMfhfVfpjZ/oWoVZ6NTVTSORft0W+qfRGz/UtMz9//YmbrRP6FLw/YABDLUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8bcbWbm5Mvy72X1mVt/wWNc52ye1XfUh7ADltvidYxUeBTfpMZLlq4jDsd8t77MiexOVv6X/QUkWN6Q9pZ+ICQ79K1OOPb2q53+Yrk1mnw2LeP1Pl+u1XVv6j7Hj6biQcPtM2NV6lgxkSuZCn3SzKn/AG407V9q9ETzUtzj6tfEcPKGGoxNggfZZG2NvYjGNVdvp5TqcCdNphdIMyE8e1zJ7TOVU6tj+Y36F5vyvIjPpOyqjMBAi/FVbDlT2erRP0qQJV/iL2MFwj+i9hZfA6PUqtfPNLPg2kl995FOBumUz2rUu2Y+aljdpnoqdHSb/Eb9KKv5PmaSIRwRwqYfQNSR7dp76rbk9jtuT+yjV96k1mkZDC+aVyMjY1XOcvYiJ1VSv1Cu61d44Lci80KzVpZxzxlvfn6IpH0jNSukuV9L1pFSOFEntbL2vVPiNX2J1/KTwKeOhqTJyZnP3srKq81qd0iIvzUVeie5Nk9xzzSWtFUaSh7yfPtSu3eXM6r4Ph4cgACQQQAWTwm4av1IjcvmUkhxKL9zY1dn2VReuy9ze5V7V7E8U8q1aFGG3N7iTaWlW7qqlSWX73srptew6s+y2CV0DHI18qMVWtVexFXsRVPmaV4u4apDwqv08fUirxVUjljjjYjWpyvbuvTy3M1HjaXSuYOSWN5K1XTXp9WNNvOVn8gAEsrCVcNtX5PS+bh+Dyq+lYla2zXd1a5FXbmTwcidi/T0NTmceC+iZtQ5mPLXY3NxVKRHbqn36RF3RieSdq/R39NHGa1aVN1Uo8eZ9C6Lwrxtm6n8W/l/fkAAVRpgAcHX+cbp3SOQynMiSxxK2BPGR3Rv1rv7EU7Qi5yUVxZ51akaUHOXBLJnTivlEy/EDK2WP5omS+oj27NmIjenkqoq+8i4cquVVVVVV6qq94NrTgoQUVyPkFeq61WVSXFtv6mjfR6qrX4epKqbJZtyyp57crP8hYhHuG+PXF6Ew1Nycrkqte9PBz/jqn0uUkJj7me3WlLvZ9W06l1VpTg+SX4AAPAmgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGZuOquXibkkXsRkKJ7PVNI3pLFuzepsdik32s2GseqdqM3+MvuTdSW+kDXWHiLLIv/AH6sUie5Fb/lPr6PFJLOvlsuTpUqSSIvmuzP0OU1cKvV2amuUf0fMatv12rSpPnN/TPoaJijZFEyKNqMYxqNa1OxETsQqD0h6MmQzWlace/Nallgbt4udEifpLhIfr7Gpc1JpCyqbpBk1T/43PT64zPWdTq6yl4/hm81ah19pKmubj/+kS2vFHXgjghajI42oxjU7kRNkQjfFa6uP4d5qw1VRXV1hRU/9xUZ/mJOQLj45W8NraIvR00KL+ei/qOlstqtBPtR66hPq7SpJcov8GawAbM+SAAAHf4f6ffqfVdPFbq2F7uedyfNjb1d717E81Q1bUrwVKsVWtE2KCFiMjY1Nka1E2REKX9GWi11rM5NyJzsZHAxfJyq5391pdpmdWrOdbY5I+idGLSNK067nP8AC3HO1RSXJaayePRN3WaksTU81aqJ9Zmmnw51tbaixaetNRf/AFXNi/vKhqcqrWfFXK6byz8ba0n6qRvVkklvdsre5zdmdU9/t2ONPrV45hSSee3/ANnfXbSzqbNW6k4pbty/wyBVuEOtZXo2SpUgT8KSy1UT83cmGmeCMEUzJ9Q5T4Q1vV1eq1WtXyV69dvYiL5nHtccc45u1XD46JfGRz3/AKFQ4N3iPrnP2oaEGTWq6xI2JjKjEjVXOXZPjfK7/EsWr+osNqK9+JQQnolB5jGVR9/tGkqFSrQpxU6UEdevE3ljjY3ZrUPsfDHVkp4+vUSR8iQRNj53ru52ybbqveqn3M4+JvorEUsYAAODsChPSH1Ml/MQ6dqybwUV9ZY2Xo6ZU6J+S1fpcvgWnxL1ZBpLTklzdjrs28dSJfnP8VTwb2r7k7zLVmeWzZls2JHSTSvV8j3L1c5V3VV95c6Ta7UuulwXAyPSfUVCn8LB73x8Ozz/AB4nzOppHFOzep8dikRVSzYax+3czfdy+5qKpyy3PRvwSz5a7qCZn3Oqz1ECqn/cd1cqexvT8subqt1NKUzJ6bau6uoUuTe/wXEvRrUa1GtREaibIidx/QDGn1oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAApH0mcerbeHyrW9Hxvrvd4cqo5qf2nfQfP0ZY0XKZqXbq2CJqL7XO/wBCf8Z8K7NaBusiZzT1NrUSbdV5N+b+yrivfRmlRM3mId+r6zHInscqf5i7p1NvT5R5r1MdXt+p12E+Ut/2aL1PjZrxzuhdIm7oZEkYvguyp+hV+k+wKRPBsGk+IIRxzhdNwzyStTdY3RP93rGov6SbnI1pj1yuksrjmt5nz1JGxp+PyqrfrRD1oS2KsZdjRGvaTq21SC5pr7GRQAbU+QgAAF4ejLK1cdm4EVOZs0T19io5E/QpcJnT0fcyzG62WjM/liyMKxJv2esT4zf8ye1UNFmV1SDjcN9p9L6OVlUsIpcY5X3z+wcnVWncVqbFux+VrpIztjenR8Tvwmr3L9S951gQYycXmL3l1UpxqRcJrKZlfiHonJaPyCMn3sUZVX4Paa3ZrvxXeDvL6CV+j/pKS/mftltx7U6SqlfmT75Lt2p5N339u3gpeWYxtHL46bH5GsyxWmbs9jk+tPBU7lTsP3jKNTG4+ChRgbBWgYjI2N7ERP8AfaWlTVJzobDXzPn3GbodG6VG8VZP5FvS7/RHoABUmnB4M/l6GCxM+TyU6Q14W7qve5e5qJ3qvch8tT5/F6cxT8jlbCRRN6NanV8jvwWp3r/tTNPELWeS1fk/XWFWCnEq/B6rXbtYnivi5e9SdZWUriWXuj2lNq+sU7CGFvm+C/b97zza71Rd1Zn5Mla3jjT4leFF3SJncnt71XvX3HBANVCEYRUY8EfNKtWdabnN5bP3BFJPPHBCx0kkjkYxrU3VyquyIhrDQGAZprSlLEpyrKxnPO5PnSO6u+vonkiFQ+j9pJchlXaluxfuWk7lrI5Oj5vwvY1PrVPAvwoNWudqSpR5cfE2/RfT3Tpu5mt8ty8P8gAFMa0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/jkRzVa5EVFTZUXvKV0bi/tM45S4rlVlS/BIlRy9ixu+O1PcrFb7ULrI1rzAPykVLKUGNXK4mdtmr3esRFRXRKvg5E29u3mSratsbUHwksehW6jaursVYr5oPK71zXmvuSUH4gkbNBHMzflkajm7psuypv2H7IpZJ5AAAMqcUMIuA1vkaTW8sD5PXwdOnI/qiJ7F3b7iMmgfSD0y7J6fiztWPmsY7dJtk6uhXtX8levsVxn411jX66inzW5nyzWbJ2l3KPJ714P04AAEwqj915pa88c8Ejo5Y3I9j2rsrXIu6Khp/hhrSpq3CsV8jGZSBqJag7F37Odqfgr9S9Pbl09OKyF3F34r+OsyVrMS7skYuyp/qnl3kO8tI3MMcGuBbaTqs9Pq5xmL4r9+JsgFOaV42VnRMg1Jj5I5UTZbFVN2u81Yq7p7lX2ITilxG0VbYjo9QVmb90yOjVPzkQzdSyr03hxf5PoFvq9ncRzGovB7n9yVgilviPomsirJqCs7buia+T+6ikUz3GzCV2uZh8davSdz5doo/b3uX6EOIWdeb3RZ2rarZUVmdReTz9kWsV7rziphMAklTGuZlMinTljd9yjX8ZydvsT37FO6t4h6n1I18Nm78GqO6LWrbsYqeDl7Xe9diJFrbaQl81Z+RmNQ6UuScLVY73+l6/Q6up9Q5bUmSW/lrTppOxjU6Mjb4NTuT/anKALqMVFYS3GRqVJVJOU3lsHc0Rpq7qrPw4umitavxp5tt0ijTtcv6ETvVUPBgsTfzeUhxmNgdPZmXZrU7ETvVV7kTvU1Bw90jS0hhG04NpbUmzrVjbrI79TU7k/WqkK+vFbwwv5Ph6lxoukyv6uZfwXF9vcve47GFxtPD4qtjKESRVq7EYxvf7V8VVeqr4qewAyrbbyz6ZGKilGK3IAA4OQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD8zRxzQvhlY2SN7Va9rk3RyL0VFMv8VNHTaS1A5kTXOxtlVfUk7dk72Kvi3602U1EcvVOBx+pMNNi8lFzxSJu1yfKjd3Oavcqf8A12E2yu3bTy+D4lRrGlx1CjhbpLg/15mQgSHXOkcrpLJrVvM54HqqwWWJ8SVP1L4p3ezZSPGqhOM4qUXlHzKrSnRm4VFhoAA7nmAAAAAAAAADp6ZwOT1FlI8diqyzTO6ud2Njb3ucvcn++0kHD/h5mdVysnVjqWM3+Nakb8pPBifOXz7E8e40PpTTmJ0zjG0MVXSNnbJI7q+V34Tl71+pO7YrbzUYUPljvl+DQaToNW8aqVPlh934epzeHeisdo/GrHBtPemRPhFlybK78VPBvl9JKQDNVKkqknKTy2fQ6FCnQpqnTWEgADoeoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB5MxjKGYx8lDJ1Y7VaRNnRvT6070XzTqhSuteDN2s6S3pif4XD2/BZnI2Vvk13Y737L7S9QSbe7q27+R7uwr77TLe+jirHf2riY2yNG7jrTqt+pPVnb8qOVitcnuU85sbK4zHZWv8HyVGtci7mzRo9E8037FIblOEei7qq6KnZouXtWvOv6HcyJ9BcUtYptfPHBk7jonXi80Zprv3P8AZmsF72OBuHcq/B83fjTu9ZGx/wCjY+cPAzGoqetz9t6d/LA1v61JH/FLbt+zID6N6hn+C+qKMBozH8G9H1lRZ/shd8Uln5UX8xGr9ZK8JpPTeFVrsZhacEjeyT1fNIn5Tt3fWeM9YpL+KbJdHopdSf8AzJKK+r9+ZnTTHDvVefVj6+NfWru/8xa3jZt4pv1d7kUtvRvCHBYhzLWYf9lrbeqNe3lhav8AF+d+V08iygVlfU61Xcty7jRWXR20tmpSW1Lv9P8A2fxjWsYjGNRrWpsiImyIh/QCvL4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHwvXKlGs6zetQVYGqiOkmkRjU36J1XofcjPFCrFc0XarTt5o3zV0cnl6+Pf6jvTipTUXzPG4qOnSlOPFJs9321aY/hHh/wCux/tHSp2qt2syzTsw2YH78ksT0e12y7LsqdF6opkfVeImwOor2In3V1aVWtcqfKb2td70VF95bPo3ag54bum539Wfumsir3Lsj2/Tyr71LO502NOj1sJZ9DO6f0gnXuvh60FF715rkXKeDIZvDY6dIMhl6FSVW8yMnssY5U8dlXs6Ke5yo1qucqIiJuqr3GauMavt5anm5ObfKRvniRfmwo7ki+ljUd7XKRLO2VxPZbwWerajKxo9ZGOX+vbRoSln8DdssrU83jbM79+SKK0x7nbJuuyIu69EVTpGauAkaP4k03KnWOGZyfmKn6zSovbZW9TYTzuGkahK/oOrKON+PweLJZbFY1zG5HJ0qSyIqsSxO2Pm27duZU3PKmqdMqqImosQqr0REux/6kI4v4lNQxZhzGcz8LjWyRr4SPfzvT2pHEn55nwl2mnQrw2nLDKzU9erWVbYUE4vg89m5/c2iDi6Fyn2a0fiskruZ81ZvrF/HT4rv7SKdoq5xcZOL5GlpVFUgpx4NZOQ/VGmmPVj9RYhrmrsqLdjRUX6T2Y3J43JMe/HZCpcaxdnrXmbIjV8F5VXYybrCJINW5iFvRI787U90jkLp9GqJE0lkZturr6tX3RsX9ZZ3Onwo0esUuwzmna7Uu7v4eUEuO/wLAsaj09WnfXsZ7FwzRuVr45LcbXNVO5UVd0U+f21aY/hHh/67H+0Zw4uxJFxIzTGpsizo785rV/WT70Z4YZYc962KOTZ1fbmai7ffDmrp8Kdv12Xy+5xb67Wr3ztFBLe1nfyz6Fo/bVpj+EeH/rsf7R78dkKGRhWbH3a1yJruVXwStkai+G6L29UONqbRWm9QVXw3cZAyRU+LYhYjJWL4o5E6+xd0OjprDUsBhK2JoM5YIG7br2vXvcvmq9SvkqWxmOcl7Tdz1uJpbPas5+h6r92nj6zrV61BVgb8qSaRGNT3qcR+t9KsYkj8vG2JeyV0b0jX2O22+spTiBqh1nix6zLMdYxeKvJG2r2t5GORHLsvRVVUVevb0TsL9xOQxWfxLbVCaC7SmbyrsiKm3e1yL2L4opIq2qoQjKabz2cvyQLXUneValOk0tl4372+/it31PvjchQydZLOOu17cK9OeGRHpv4bofWzPBWrvsWZo4YY05nySORrWp4qq9EM+8Rcff4ca4jyWnJ306lxFlhY1fibovx41TsVu6ou3cjk8C5NDZ6PV2lY71ig+BZWrFPDLGvI5duvKq/KaqL+o4r2nVwjVi8xf1O1nqbr1Z21SOzUj9H3o9X21aY/hHh/wCux/tD7atMfwjw/wDXY/2jkaZ4c6VwUss8OPZamfI5zX2kST1aKvRrUXom3j2+ZUXpCRRQ68jZFGyNvwGPo1qInynne3tqNersRb8TxvtQu7K266pGOc4wm/yXp9tWmP4R4f8Arsf7Q+2rTH8I8P8A12P9opT0coYZ9YX2TRMkb9j3dHtRU++R+JaeoOG+lMzdguSY5lWWKRHv+DIjGzIi9WvROiovimy+Yr29GhV6uTfic2V/d3lsq9OMc54PP5JJayuLq0ortrJU4Ksu3q55J2tjfum6bOVdl3RFU8f21aY/hHh/67H+0RD0hIWf/jtqNajUitxK1ETZE6OT9CmeqcaS3IYl7HyNavvU9bPT4XFPbcsETVddq2NwqKgnuTNmIqKiKi7ovYoP45WsYrnKjWtTdVXoiIZ04pcSL+fvTY3E2JK2IY5WfEXldY2+c5e3lXub9PlEtbSdzLEeHaWupanS0+ntz3t8F2l4ZDV+mKNj4NZzdJJ99vVMk9Y9F8OVu6op/KesNMWrfwSPNVWWN9kimVYnqvgiP2VSIcAtMVsdpiPPTQtdev7qx7k6xxIuyInhvtuvjungenjxp6vlNGzZRsTfhuO2kZIidVj32c1V8Nl393menU0eu6rL7M9/h/k8Fd3jtPitlcM7O/h45447iwwZ+4OcQ7eLyVfBZiy6bGTuSOKSR2613L0TqvzO7bu7fHfQJ5XVrO3nsyJOm6jSv6XWQ3NcV2AAEYsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcHiB+9Wx/LV/8AHYd44PED96tj+Wr/AOOw9KP+pHxRHu/9Cfg/wVl6SOn9pKOpIGdHfuayqJ39VYv95N/JCsNG5qXT2p6GXj3VK8qLI1PnMXo5Pe1VNSaxw0WoNM38RLsnwiJUY5fmvTq1fc5EMj2YZa9iSvOxY5Ynqx7V7WuRdlT6TQaZVVag6UuW7yZhukdtK0vI3FPdtb/Ne0zVur7aW8FXo0Jt5M09laGRi/8AbenNI9PZGj138dipfSQijgzmHhiYjI46StY1OxERyoiEl4DzX81j4Ll9N6+GhdSpuXrzOeqOcv5LEY1PJVI76S/74sV/NHf31IlnDqrtUuzPv6Fpqtb4rTJXGMbWzjyfrnywcf0f/wDqLD/Npf0GkDN/o/8A/UWH+bS/oL81bdkx+mr9qD7+kKsgTxld8VifnKh56rHauUl2I9ujM1DT5SfJv8I8Wkoo7+MyN+ZqPZlbcz9l+dEn3JnuVjGr7zLedoSYrNXcbLvz1Z3wqvjyuVNzTuJ+2nG4upj4dP4j1daFkLP+LP6o1ERP+x5FHca8ffq61ku36Veo+/E2ZGQTrKzdE5F+MrW9fi7qm3eSNMm1WlHk+9cv8EHpFSUrSnPDzHjua48eK7SxvRvynwnS13Fvdu+lY5mp4MkTdP7TXfSWmZ09HvKfAddfAnu2jv13x7d3O346L9COT3miyDqdPYuH37y56PXHXWMU+Md304fbBkfXf7989/SVj/FcXR6Nn7yb39JP/wAKMpfXf7989/SVj/FcXR6Nn7yb39JP/wAKMtdQ/pryMzoP/dZf/Iq3jN/1MzP8pH/hsJZ6PWbxOHhzaZPIQVPWug9X6x23Nt6zfb6UInxm/wCpmZ/lI/8ADYTz0YvvOf8A41f9EhzcY+AWeyP6OtgpPWnsvD2p/vwLIo6x0xfyMWOp5mtPamVUjjYqqrlRFVe7wRTvH8VrVcjlaiqnYqp2H8keyON0kj2sY1Fc5zl2RETtVVM5LZb+VH0CmppPrGn4LH7ZRPHTQ1ytlbGqMbC6anY+PaaxN1hft1cqfgr279y7+RXmmNR5jTd5LeIuPgcu3OztZIng5vYv+9i+p+Kun5dV0cFQatyGxOkM1vfljaruicu/yvjbIq9E28Tm8QeEVDKesyGnFjoXF3c6uvSGRfL8BfZ08k7S9t7t04Klcxwnwz2d5ir7S1XqzudOnlp70u3ufvu7D66N15pjW01OnqDH1IMrC7eBk7UfE969N2KvYvkvXs2VSzkRETZOiGOsvjchhsg+jkqstS1EvVj02XyVF70806GhuBup7WodKvhyEjpbdCRInSO6rIxU3aqr49FT3b95H1CyVOPWU38vZ6E/Q9YnXqu3uFifbjDeO3vJ+Z29Ir9/8f8AMY/7zzRJnb0iv3/x/wAxj/vPPPSf7HkyR0o/o+aPT6Nf787/APRzv8SM0AZ/9Gv9+d/+jnf4kZoA41X+w/BHboz/AEF4sr70gf8Ap1L/ADmL9KmeMV/zSp/LM/vIaH9IH/p1L/OYv0qZ4xX/ADSp/LM/vIWelf1n4szvSb/uEfBflmnOL16TH8OcxPE7le+JIUXykcjF+pymWjVHFqhJkuHeYrRN5pGwpMid/wBzcj1+pqmVzro+Oql25O/Sza+Khnhs/t5/RrrRMKV9G4WFEROShAi+31bdz25ijFlMTcxs6uSK1A+F6t7URzVRVTz6nK4c3WZDQmFsxqi/uOON234TE5HfW1TvlDUzGo+3Jt7dRnbx7Gl9MEIwfCzRuL5XOxzr8qfPtv5/7KbN+om7URqI1qIiJ0RE7j4ZC3BRoz3bLuSGCN0ki+DUTdT5YN11+IqPyOyXHxNdM1E25XKm6t92+3uFSpUqfNN5OKFChbvq6UUvBfk9gAPIkgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjPFCwyroq3O9dkbNX/x4yTHwv06d+s6teqQWoHKiuimjR7VVF3TovQ705KM1J8meNxTdSlKEeLTR9zOnH3T64vWSZGCPavlG+sTZOiSpsj09/R35Smizn5nC4vMpWTJ047PwWZJ4eZVTlenYvTt9i9FJFnc/D1NrkQtW0/4+36tPDzlP33HP4d4NNPaOx+Mc3lmbHzz/AMo74zvoVdvYiFR+krIi6qxsXe2jzL75Hf6F+HPyWCwmTnSxksPjrsyN5EksVmSORvVdt3Iq7dV+k5trrq6/WyWeP3Ot/pvxFmrWm8JY+xnrgJIjOJNNq9skMzU/MVf1F66oe2zmcFh9/vtpbcqf+3AnMn/yLEeyjp3T9G0y1SwWLq2Gb8ksNSNj27psuyom6dFVD3LUquuNurWhW01ixtmVic6MVd1aju3bfuO11dxrVesSxu9Ty03TKlnbOhKSeZZ8t2V9j7FT+knjEm09jsq1Pj1bCxO/ivTf9LE+ktg8+Qo0sjWWtkKde3AqoqxzxI9u6di7Kmx4W1bqaqn2E6/tfi7edHtMi6cyL8Rn6GUZuq1bDJVRO9EVFVPem6Gv680VivHYgekkUrEexydjmqm6KnuOR9qWlP4MYX+oRfsnUijq0aaRxMhq1oGdGtRGMjaieHYiIhJvruFy04rDRXaNpdXTlOM5JpmTdd/v3z39JWP8VxdPo2fvIvf0k/8AwoykNQTLltV5GxTjfL8MvSyQta1Vc7neqoiInf1NI8JdPT6a0XWpW28tuV7rE7d/kOdts32oiNRfPcstSko20YPi8Ge6PU5VNQnVj/FZ3+PAobi7IkvEjNOau6JOjfoY1P1E+9GWRjIc/wA72t3dX7V27pC0rOmdN2rElizp/EzzSOVz5JKcbnOVe1VVU3VT5/alpT+DGF/qEX7JDq6hCpb9ThrcvsW1todahfO72k97eN/PPqejJ5/B4yJZL+Xo1mp/6k7UVfYm+6+4+GmNR4zU0FmfFetmqQyeq9e+PlZI7bdUai9V23TtRO0/n2paU/gxhf6hF+ydOhSp4+slahUr1IGqqpFBGjGoq9vROhXPqlHdnJfRVw6mZYUe7Ofr/goLivw5u4K/LmsFBJLjHO9YrIkVXVXdvYnXl8F7uxfFbQ4W64p6qw8UM88ceXhYjbEKrsr9vntTvRe/wX3bzQ4GR0XpW/Z+E2cHU9fvzesiasTlXx3Zsu/mSp3arU1Cst64NFdS0udncSrWrWzLjF8PJrOPoRzj3RxM+hprl5I23IHt+Bv6I9XK5EVqeKKm6qnlv3Hw4AaeuYbTFi9fidDLkZGvZG5NnJG1Piqqd2+6r7NiXVNJ6eq2mWmYyOWeP73JYc6ZzP4qvVdvcds83c4odTHhn2j2hp21e/FzwmlhJflvdy3cAZy9IWRH8Q3NResdSJq/Wv6zRpzL+nsBkLLrV/B4y3O5ER0s1Rj3rt0TdVTcWVwrepttZOdXsJX9v1UXjfko70b5EZrm2xV+XjnontSSNf8AU0Ic7HYDBY6x8Jx+FxtOfZW+sgqsjdsvam6JudE4vLhXFXbSwc6TYysbfqZPO9ldekNIjOH3KvbJcian0OX9RninIkVyGVexkjXL7lNhZLHY/JwJXyVGrdha7nSOxE2RqO2VN9nIqb7KvXzOf9qWlP4MYX+oRfskuz1CFvS2HHJWatoVW+uOujNLckdlURzdlRFRU+kzpxV4cXsDfmyeJrvsYiRyv2jTd1bfta5PwfBfcvnoxEREREREROxEBEtbqdtLajw7C01LTKWoU9ie5rg+wzzwc4hwaZa/D5lX/Y2V/PHK1quWBy9u6J1Vq+XYvtLjXXejkrfCPtjx3Jtvt61Ob83t+o/eU0VpPJyrLcwFF8i/KeyPkcvtVu2588boPR+OmSarp+mkjeqOkasmy+Kc6r1PavWtq0tvDT8iHZWmo2kFRUoyiuGc5XvxPJSuza0tQyQVpoNOwSJL6yZitdfe1d2o1q9UjRURVVflKiJttuS8J0TZAQpzUuCwi4o0nBNyeZPi/fBe+IAB0PYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAonQuc4v6h0BZ11jtS4a9JDbvNZg7OJRjJ2V7EkaRpOx6Oa9zY+jlaqbqm6bFuaE1JS1hozEaoxzXsq5SpHZjY/5TOZN1avmi7ovsAO0AQTSGpsrkuMevNM2pI3Y7C1sXJSakaI5qzxzOk3d2rurG7eABOwCA8ddYZLRmj6l7FvpVZbuUrY5+QusV1fHMmdyusyIipu1vZ1VE3cm67AE+BX2k04iY7VVKvkszR1hpnIVZJHZOGtFVkoyt2ViKjXqksciKqIrU3RU6rsWCAARHi/q+bRGhbWap02Xsi+WGnj6z3crZbM0jY40cvc3mduvkike9Vxc03lcJdu5qlq+hcuR1stSr4ttV1JknRZ4Xo9Vcxi7btfuqt7F3ALPAPNlbtfGYy1krblZXqQvnlcib7Ma1XKv0IoB6QUnistxgz/D9vEvHZrDU47NRclQ01JjedklXl5445LHPzpK9my8yIjUVUTbYtTRGoKmrNHYfU1FjmVspSitxsd8piPajuVfNN9l9gB2ACC6E1LlcvxN4hYG7JG6jgrdGKi1saI5rZajJX7r874zl7QCdHN1BhKGeppSySTvrKu74o53xpJ5O5VTdPIi3CbU2V1Fk9c18nJG9mG1NPjqfJGjeWFsML0Rdu1d3u6k7OYycXlHWcIzi4yWUzi4DSenMC/1mJxFatJtt63lVz9v4zt1+s7RWHFTNaubxO0To/TGfgwkearZGa1YkoMtLvXbCrERrlTb5bu8+3DnUuqE4j6h4f6pu4/MT4ulWvwZOnWWuro5le31c0fM5GvRWbpsvVq77IcynKbzJ5OKdKFKOzBJLu3FkgFdcc9YZXSePwEGLt0MUuay8eOmy9+P1lfHMcx7vWObu1FcqtRreZUbuvU6ncsUEE0WnELHaqdjc9kKmptPWKPwivmoa8dWSGZHInqXxteqPa5q8zXtRNtlRe1FJ2AAV/x/1Jm9LcPkyWn7kNK/Lk6VRs8sKStjbNYZG5eVei7I5T16QxesK+ZZPl+I9PPU2sdz04sRFAqqqbIvO16qmy+XUAmoAAAAAAKJ0LnOL+odAWddY7UuGvSQ27zWYOziUYydlexJGkaTsejmvc2Po5Wqm6pumxbmhNSUtYaMxGqMc17KuUqR2Y2P+UzmTdWr5ou6L7ADtAFP5PNa1zXGXU+lsVralpvHYejQniSXGRWHSunSTm6vc3bb1aePaAXADk6TrZWphY4sznY85b5nKtyOq2u17VXonI1VTp2b79TrAAFQakzusslxpy+ksRrWjprHY/C1bzXT42OwskkskrXdXubsiIxO8kPAzVmX1dpXIWM06jZsY7L2say/RYrK+QZC5ESxGiquyO3VF2VU3a7ZdgCfAET4vaon0hw9yeYoxtmyatbWxsK9fW25nJHC3bv+O5u6eCKASwEK4MalyepdGb6g9SmoMXcnxeXbE3ZnwmF6tVzU/Be3kenk9CagAHD1hjdRZKnDFpzUseAnZJzSTPx7LXrG7fJ5XOTbr13K54H3OI2qaz87mtc1pqdPL3KMtGPCxs9e2CZ8SL6xHbtVeVF6Iu3YAXEAQnjvqPKaR4Q6l1LhZI48hj6azV3SMR7UdzInVF7e0AmwK/0pjNbpk6VrI8T6WVqps+alHhYYnSJt2c7ZFVvXv27iwAAAAAAAAAAAAAAAAAAAAAAAAADPHCnU+odMcLrGkqXD7WFrUyXsj8GZLiJa9TmmtTPje6xKjY0Zs9rlVFVduxFLf4S6Wdonhpp7Skk7Z5cZRjgmkb8l8m271Ty5lXbyJQAAVroTG5Gtx84mZKxj7cNG5UwzatmSFzYp1jisI9GOVNnK1XN32Vdt037SygACJcU7+Yx2Brz47S7NTUHWmx5egkaSzOpuRUe6KNV2kci8vxF7U326ktABQ3DbGVIeL+OucM9L6j01pV1Oz9sMF6jPRpSyry+o9TBMibSo7m5nMaicvTfqXyAAQHj5pvLal4eSRYCFtjL469VylKu56NSeSvM2T1e69EVyNVEVem6puc5nEjO6hymGxWkNG56tYluxrmJ89h56sFGqm6yojnK1HzL0a1GK5N13XohZ4AB4NR4yPNaeyWHlescd+pLWc5E3VqPYrVX6z3gAonTur9S6b4U1eH1rQep7WsMdjExNZtfHPfRsuYz1UU6WvvTY1RGucrlRU6ptuWjws02/R/DfTul5ZWzTYzHQ1pZG/JdI1qc6p5c2+3kSUAApxuRt8POMOtsrl9PagvYjUy0bVG5isbLdRskNdIXwyNiRXMduxFRVTZUd29C4wAVtwExOXp4/VWdzOMsYp+pNR2crWpWURJ4YHMjjjSREVeV6pHzK3fpzIi9dyyQACoeMGjWau4z8O2ZHFZG3hq9PLfC560k8LIXuZX9Wj5YlarOZWrsiuTfZe0+nBLTUugNZau0e3C2PsdYsNy2NzCwvf8Ihk+Kteadd+aSJyKjUc5XKxyL3KW0AAQrixfyNChQ/8IN1Vp2eZ0Odpx1vhNhsKtXkfHCvSVEeiczdlXZd0ToTUAFG8HsZHU4q2LOgtP6h0/oR+Kf8Oq5OrNVryXlkasbq0E2zmqjOdHK1EYvTvLyAAKs9KXGWMtwodUr4a7mWplsfLPTqVH2ZJIWWY3Sfc2IquTlRd027D88LJeHVTU3qdI8Mcxpm7Zhcx9uTSU+PjVifGVrpXRtb1VqbIq9VRC1QAAAAAAAZ44U6n1DpjhdY0lS4fawtamS9kfgzJcRLXqc01qZ8b3WJUbGjNntcqoqrt2Ipb/CXSztE8NNPaUknbPLjKMcE0jfkvk23eqeXMq7eRKAADO+sMTppnH7VmT1zw1zGp8faxuOZjbEOmZslE17El9aiOZG5Gr1Zv7PI0QACPcO7OHsaUqtwGCu4LGwK6KCjaxr6LokRe6F7Wq1u69OmykhAAM+a/wAVp9vpB5jKa04cZXVGKnwFOGlNDpqXJRMmbLMr0RzWORq7K3fqncTX0dsVl8VpzNst4q9hcLPmZpsBi7q/dqdJWs5WK3dfVor0e5I9/iopZwABUvFzCan1pxK0vp/D2LOGx2FY/Oz5V+P9fA601fVV4k5tmOenNK9U36bNXbsLaABUHD/Aat0XxnykeXv2dQY3VdFtyXIw4z1EVa7X5Y+V6MVWs9ZErdnKqcyx7dpb4AAK29HbG5HF6KylfJ0LVGZ+ospMyOxC6Nzo32pHMeiORFVrkVFRexUXdCyQACu/SVx2Qy3AnV2NxVG1fu2KCshrVonSyyO5m9Gtaiqq+SFiAAprhs/hlQ1HQ+13hNm8DlZG+pS87Rlim2PdvxuaZYkRrV8VXYuUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFY8QeKbtL8UdPaUjxrLOPs+rXM3lft8ASxIsNTy+PKiou/YnUsyWRkUbpZXtYxiK5znLsiInaqqZmxOmeIPE3SWtNQ41mmI8Zrudz6kmQfYbbhqwKsdRzeROVNuRJW9vV+6gGmwQ/gzqmXWPDbD5q431eRWJa+RiXosVuJyxzNVO747Xe5UJgAV3qLWWp72vbmidBY3Ez3MXUitZW/lZZG16yy7+qha2NOZ8jkaru1ERNu1V2Orw01Rmc83L43UuETE5vDW0q2mwuc+tYRzEeyaF7kRXMc1exU3aqKikHbnsTw34660vayuR4jFapgoWsbkbPxa7n14VhlhdJ2NemzXI1V6o5dic8Nta/bwzLZCjipYMFXt/B8ZkJHr/AMSYjEV8zGK1FaxHKrUXdUdyqvTsAJccHiFqWto/RGY1Pbb6yPHVHzNjTtleibMjTzc5WtTzU7xTvHp+a1Lq7SfDzTTcfLbWdNQZBl5XpAleq9vqmyciKqtfM5vRO31YBMuEGrres9GsyOVx7cZmatqajlKLXcyVrMT1a5m/eipyuTychMClOH79U6S465LGavbhoma2q/D6n2LdKsHwyqxjJW7SIio98Sscvj6vfxLrAIZxr1df0Nw4yGpcXUrW7kE1WGKKy5yRqs1mOHdyt69Ek36eByoNaaw05qXD4niFhcNFTzdn4FSymHtSSRMtK1XMhljkYjm86NVGuRVTdNl23PB6W0sVfgPmJ5ntjiju4173uXZGtS/XVVU5OttU4TipnNH6e0Jc+zbKWoamYyV+qxy1qcFZyybOl25ed7ka1rUVV6qq7IgBdp58nYdUxtq01qOdDC+REXsVURV/Ueg8Oof+QZH+ay/3FAKw4c6o4v6y0lhdUwUNC16GUgZYSN89r1rGO7ujVTm289i3TKfo+ZfgrjdCaOs5LiHYq5+CvA6Wk/U1psTJkX5C1/Wer23+Zy7eRqwA/jl2aq+CFXejZxUn4qaMsZLJ42HF5apOjLFWJyq31cjEkhkbv15XNX6WuLRk+9u9imPdFZHNcP8AhHoLXem6MtuxqLAv03LDGn/nVkkdj5XJ37PWRir4ORPAAvDhxxVn1jxh1bpCDGwx4jCxI6neRyq+05sroZV8OVJY5GoqdvKWmUZwi01Bo7jlNpeu/wBa3HaEx8T5V7ZZFtWHSSL5ue5zl83F5gEN4t6syOh9PVtSwY+K7iq12JMzvzesr1HLyvnYidqsVUVUX5u69Nj5ZTWtiXifhNFaer1ryTU35PL2nPVW1KnyYuXbor5H9ETwaq9SYZCpWyFCxQuwMsVbMToZonpu2RjkVHNVPBUVUKd9EfBU8Xo3OW2SWLNuTN2aDrFmRZJPg9N6168W6/NZGxERPFV8QC6QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfmRjJGKyRjXtXtRybofoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//9k=';
+  document.querySelectorAll('img[src="LOGO_PLACEHOLDER"]').forEach(img => {
+    img.src = LOGO_B64;
+  });
+
+  // ─── Navbar scroll ───
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ─── Mobile menu ───
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileClose = document.getElementById('mobileClose');
+  hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
+  mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  });
+
+  // ─── Scroll animations ───
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // ─── Form submission ───
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = '✓ Message Sent!';
+    btn.style.background = '#0E8FA8';
+    setTimeout(() => {
+      btn.textContent = 'Send Message →';
+      btn.style.background = '';
+      e.target.reset();
+    }, 3000);
+  }
+</script>
+</body>
+</html>

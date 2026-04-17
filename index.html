@@ -1950,18 +1950,51 @@ footer{background:var(--navy);color:white;padding:80px 0 32px}
 })();
 
 // ── FORM SUBMIT ───────────────────────────────────────────────
-function handleSubmit(e){
+async function handleSubmit(e){
   e.preventDefault();
+  const form=e.target;
   const btn=document.getElementById('submit-btn');
-  btn.textContent='✓ Message Sent!';
-  btn.style.background='linear-gradient(135deg,#0E8FA8,#0d7a90)';
-  setTimeout(()=>{
-    btn.innerHTML='Send Message <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    btn.style.background='';
-    e.target.reset();
-  },3000);
-}
+  const originalHTML=btn.innerHTML;
 
+  // Loading state
+  btn.textContent='Sending…';
+  btn.disabled=true;
+  btn.style.opacity='0.8';
+
+  try{
+    const data=new FormData(form);
+    const res=await fetch('https://api.web3forms.com/submit',{
+      method:'POST',
+      body:data
+    });
+    const json=await res.json();
+
+    if(json.success){
+      // Success state
+      btn.textContent='✓ Message Sent!';
+      btn.style.background='linear-gradient(135deg,#12A899,#0d7a6f)';
+      btn.style.opacity='1';
+      form.reset();
+      setTimeout(()=>{
+        btn.innerHTML=originalHTML;
+        btn.style.background='';
+        btn.disabled=false;
+      },4000);
+    } else {
+      throw new Error(json.message||'Submission failed');
+    }
+  } catch(err){
+    // Error state
+    btn.textContent='Something went wrong — please try again';
+    btn.style.background='linear-gradient(135deg,#991B1B,#7f1d1d)';
+    btn.style.opacity='1';
+    setTimeout(()=>{
+      btn.innerHTML=originalHTML;
+      btn.style.background='';
+      btn.disabled=false;
+    },4000);
+  }
+}
 // ── SMOOTH HOVER CARDS ────────────────────────────────────────
 document.querySelectorAll('.prog-card').forEach(card=>{
   card.addEventListener('mousemove',e=>{
